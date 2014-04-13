@@ -72,7 +72,7 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>or|and</string>
+			<string>\b(or|and)\b</string>
 			<key>name</key>
 			<string>keyword.operator</string>
 		</dict>

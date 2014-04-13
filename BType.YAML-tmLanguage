@@ -28,7 +28,7 @@ patterns:
   name: "storage.type"
 - match: "\\b(break|case|continue|default|do|else|for|if|return|switch|while|export|import)\\b"
   name: "keyword.control"
-- match: "or|and"
+- match: "\\b(or|and)\\b"
   name: "keyword.operator"
 - match: "!|\\+|\\-|/|\\*|%|==|!=|<=|>=|=|<|>"
   name: "keyword.operator"
