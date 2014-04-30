@@ -22,7 +22,7 @@
 			<key>comment</key>
 			<string>Floats</string>
 			<key>match</key>
-			<string>[1-9][0-9]+\.[0-9]+</string>
+			<string>\b[1-9][0-9]*\.[0-9]+</string>
 			<key>name</key>
 			<string>constant.numeric</string>
 		</dict>
@@ -30,7 +30,7 @@
 			<key>comment</key>
 			<string>Floats</string>
 			<key>match</key>
-			<string>0\.[0-9]+</string>
+			<string>\b0\.[0-9]+</string>
 			<key>name</key>
 			<string>constant.numeric</string>
 		</dict>
@@ -38,7 +38,7 @@
 			<key>comment</key>
 			<string>Integers</string>
 			<key>match</key>
-			<string>\-?[1-9][0-9]*(?!\.)</string>
+			<string>\b\-?[1-9][0-9]*(?!\.)</string>
 			<key>name</key>
 			<string>constant.numeric</string>
 		</dict>
@@ -46,7 +46,7 @@
 			<key>comment</key>
 			<string>Integer 0</string>
 			<key>match</key>
-			<string>0(?!\.)</string>
+			<string>\b0(?!\.)</string>
 			<key>name</key>
 			<string>constant.numeric</string>
 		</dict>
