@@ -11,6 +11,30 @@
 	<key>patterns</key>
 	<array>
 		<dict>
+			<key>match</key>
+			<string>\b&amp;&amp;</string>
+			<key>name</key>
+			<string>invalid.illegal.binop-and.btype</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>\|\|</string>
+			<key>name</key>
+			<string>invalid.illegal.binop-or.btype</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>(\/\/)</string>
+			<key>name</key>
+			<string>invalid.illegal.comment.btype</string>
+		</dict>
+		<dict>
+			<key>match</key>
+			<string>^	+</string>
+			<key>name</key>
+			<string>invalid.illegal.tab-indent.btype</string>
+		</dict>
+		<dict>
 			<key>comment</key>
 			<string>Comments</string>
 			<key>match</key>
@@ -22,7 +46,7 @@
 			<key>comment</key>
 			<string>Floats</string>
 			<key>match</key>
-			<string>\b[1-9][0-9]*\.[0-9]+</string>
+			<string>\b[1-9][0-9]*\.[0-9]+s?</string>
 			<key>name</key>
 			<string>constant.numeric</string>
 		</dict>
@@ -30,7 +54,7 @@
 			<key>comment</key>
 			<string>Floats</string>
 			<key>match</key>
-			<string>\b0\.[0-9]+</string>
+			<string>\b0\.[0-9]+s?</string>
 			<key>name</key>
 			<string>constant.numeric</string>
 		</dict>
@@ -38,7 +62,7 @@
 			<key>comment</key>
 			<string>Integers</string>
 			<key>match</key>
-			<string>\b\-?[1-9][0-9]*(?!\.)</string>
+			<string>\b\-?[1-9][0-9]*(?!\.)s?</string>
 			<key>name</key>
 			<string>constant.numeric</string>
 		</dict>
@@ -60,25 +84,25 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>\b(bool|class|float|function|int|var|str)\b</string>
+			<string>\b(bool|float|sfloat|uint|func|int|var|str|array)\b</string>
 			<key>name</key>
 			<string>storage.type</string>
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>\b(break|case|continue|default|do|else|for|if|return|switch|while|export|import)\b</string>
+			<string>\b(break|case|continue|default|do|else|for|if|return|switch|while|export|import|operator|with)\b</string>
 			<key>name</key>
 			<string>keyword.control</string>
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>\b(or|and)\b</string>
+			<string>\b(or|and|new|as)\b</string>
 			<key>name</key>
 			<string>keyword.operator</string>
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>!|\+|\-|/|\*|%|==|!=|&lt;=|&gt;=|=|&lt;|&gt;</string>
+			<string>!|\+|\-|/|\*|%|==|!=|&lt;=|&gt;=|=|&lt;|&gt;|&lt;&lt;|&gt;&gt;|&amp;|\||\^</string>
 			<key>name</key>
 			<string>keyword.operator</string>
 		</dict>
@@ -102,7 +126,7 @@
 		</dict>
 		<dict>
 			<key>match</key>
-			<string>\[|\]</string>
+			<string>t?\[|\]</string>
 			<key>name</key>
 			<string>meta.brace.square</string>
 		</dict>
@@ -117,6 +141,41 @@
 			<string>;</string>
 			<key>name</key>
 			<string>punctuation.terminator.statement</string>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>(object)\s+(\w+)\s*(\{)</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>keyword.control.class</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.type</string>
+				</dict>
+				<key>3</key>
+				<dict>
+					<key>name</key>
+					<string>meta.brace.curly</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>\}</string>
+			<key>name</key>
+			<string>meta.function</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;=:)\w+\s*;</string>
+					<key>name</key>
+					<string>variable.parameter</string>
+				</dict>
+			</array>
 		</dict>
 		<dict>
 			<key>begin</key>
@@ -148,6 +207,50 @@
 			<string>\)</string>
 			<key>name</key>
 			<string>meta.function</string>
+			<key>patterns</key>
+			<array>
+				<dict>
+					<key>match</key>
+					<string>(?&lt;=:)\w+</string>
+					<key>name</key>
+					<string>variable.parameter</string>
+				</dict>
+				<dict>
+					<key>match</key>
+					<string>\w+(?=:)</string>
+					<key>name</key>
+					<string>storage.type.parameter</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>begin</key>
+			<string>([a-zA-Z_][a-zA-Z0-9_]*)(\()</string>
+			<key>beginCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>entity.name.function.btype</string>
+				</dict>
+				<key>2</key>
+				<dict>
+					<key>name</key>
+					<string>meta.group.braces.round.function.arguments.btype</string>
+				</dict>
+			</dict>
+			<key>end</key>
+			<string>(\))</string>
+			<key>endCaptures</key>
+			<dict>
+				<key>1</key>
+				<dict>
+					<key>name</key>
+					<string>meta.group.braces.round.function.arguments.btype</string>
+				</dict>
+			</dict>
+			<key>name</key>
+			<string>meta.function-call.static.with-args.btype</string>
 			<key>patterns</key>
 			<array>
 				<dict>

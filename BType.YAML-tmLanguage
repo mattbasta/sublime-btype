@@ -6,16 +6,24 @@ fileTypes: ['bt']
 uuid: c56b4877-01b3-4784-a64e-1ba4f9dd6469
 
 patterns:
+- match: "\\b&&"
+  name: "invalid.illegal.binop-and.btype"
+- match: "\\|\\|"
+  name: "invalid.illegal.binop-or.btype"
+- match: "(\\/\\/)"
+  name: "invalid.illegal.comment.btype"
+- match: "^\t+"
+  name: "invalid.illegal.tab-indent.btype"
 - match: "#[^\\n\\r]*"
   name: "comment.line.number-sign"
   comment: "Comments"
-- match: "\\b[1-9][0-9]*\\.[0-9]+"
+- match: "\\b[1-9][0-9]*\\.[0-9]+s?"
   name: "constant.numeric"
   comment: "Floats"
-- match: "\\b0\\.[0-9]+"
+- match: "\\b0\\.[0-9]+s?"
   name: "constant.numeric"
   comment: "Floats"
-- match: "\\b\\-?[1-9][0-9]*(?!\\.)"
+- match: "\\b\\-?[1-9][0-9]*(?!\\.)s?"
   name: "constant.numeric"
   comment: "Integers"
 - match: "\\b0(?!\\.)"
@@ -24,13 +32,13 @@ patterns:
 - match: "\\b(true|false|null)\\b"
   name: "constant.language"
   comment: "Primitive type literals"
-- match: "\\b(bool|class|float|function|int|var|str)\\b"
+- match: "\\b(bool|float|sfloat|uint|func|int|var|str|array)\\b"
   name: "storage.type"
-- match: "\\b(break|case|continue|default|do|else|for|if|return|switch|while|export|import)\\b"
+- match: "\\b(break|case|continue|default|do|else|for|if|return|switch|while|export|import|operator|with)\\b"
   name: "keyword.control"
-- match: "\\b(or|and)\\b"
+- match: "\\b(or|and|new|as)\\b"
   name: "keyword.operator"
-- match: "!|\\+|\\-|/|\\*|%|==|!=|<=|>=|=|<|>"
+- match: "!|\\+|\\-|/|\\*|%|==|!=|<=|>=|=|<|>|<<|>>|&|\\||\\^"
   name: "keyword.operator"
 - match: ",\\s*"
   name: "meta.delimiter.object.comma"
@@ -38,12 +46,25 @@ patterns:
   name: "meta.delimiter.object.period"
 - match: "\\{|\\}"
   name: "meta.brace.curly"
-- match: "\\[|\\]"
+- match: "t?\\[|\\]"
   name: "meta.brace.square"
 - match: "\\(|\\)"
   name: "meta.brace.round"
 - match: ";"
   name: "punctuation.terminator.statement"
+- begin: "(object)\\s+(\\w+)\\s*(\\{)"
+  end: "\\}"
+  beginCaptures:
+    '1':
+      name: "keyword.control.class"
+    '2':
+      name: "entity.name.type"
+    '3':
+      name: "meta.brace.curly"
+  patterns:
+    - match: "(?<=:)\\w+\\s*;"
+      name: "variable.parameter"
+  name: "meta.function"
 - begin: "(func)\\s+(\\w+)(:)(\\w+)\\s*\\("
   end: "\\)"
   beginCaptures:
@@ -61,6 +82,22 @@ patterns:
     - match: "\\w+(?=:)"
       name: "storage.type.parameter"
   name: "meta.function"
+- begin: "([a-zA-Z_][a-zA-Z0-9_]*)(\\()"
+  end: "(\\))"
+  beginCaptures:
+    '1':
+      name: "entity.name.function.btype"
+    '2':
+      name: "meta.group.braces.round.function.arguments.btype"
+  endCaptures:
+    '1':
+      name: "meta.group.braces.round.function.arguments.btype"
+  patterns:
+    - match: "(?<=:)\\w+"
+      name: "variable.parameter"
+    - match: "\\w+(?=:)"
+      name: "storage.type.parameter"
+  name: "meta.function-call.static.with-args.btype"
 - begin: "\""
   beginCaptures:
     '0':
